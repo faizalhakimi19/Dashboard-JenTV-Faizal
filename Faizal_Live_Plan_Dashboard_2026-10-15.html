@@ -1,0 +1,2369 @@
+<html lang="ms"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faizal Live Plan - JEN TV Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1c2742;
+      --border-color: #233152;
+      --primary: #00f0ff;
+      --primary-glow: rgba(0, 240, 255, 0.25);
+      --secondary: #00ff88;
+      --warning: #ffb703;
+      --danger: #ff0055;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent-purple: #9d4edd;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    header {
+      background: linear-gradient(180deg, rgba(19, 27, 46, 0.98) 0%, rgba(9, 13, 22, 0.98) 100%);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 20px;
+    }
+
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-badge {
+      background: linear-gradient(135deg, #00f0ff, #00ff88);
+      color: #000;
+      font-weight: 800;
+      font-size: 1.1rem;
+      padding: 6px 12px;
+      border-radius: 8px;
+      letter-spacing: 1px;
+    }
+
+    .brand h1 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #ffffff, var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .clock-badge {
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+
+    /* Kontena Butang Tindakan Atas (Akan Sembunyi Apabila Scroll) */
+    .header-buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      transition: all 0.3s ease;
+      max-height: 100px;
+      opacity: 1;
+      overflow: hidden;
+    }
+
+    .header-buttons.buttons-hidden {
+      max-height: 0;
+      opacity: 0;
+      pointer-events: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .btn {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 9px 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      touch-action: manipulation;
+    }
+
+    .btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--primary);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #00f0ff, #00b4d8);
+      color: #000;
+      border: none;
+      font-weight: 700;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 15px var(--primary-glow);
+      transform: translateY(-1px);
+    }
+
+    .btn-save-data {
+      background: linear-gradient(135deg, #00ff88, #00b359);
+      color: #000;
+      border: none;
+      font-weight: 800;
+    }
+
+    .btn-save-data:hover {
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-save-html {
+      background: linear-gradient(135deg, #9d4edd, #7b2cbf);
+      color: #fff;
+      border: none;
+      font-weight: 700;
+    }
+
+    .btn-save-html:hover {
+      box-shadow: 0 0 15px rgba(157, 78, 221, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-edit {
+      background: rgba(255, 183, 3, 0.15);
+      border: 1px solid rgba(255, 183, 3, 0.4);
+      color: #ffc107;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-edit:hover {
+      background: rgba(255, 183, 3, 0.3);
+      border-color: #ffc107;
+    }
+
+    .btn-danger {
+      background: rgba(255, 0, 85, 0.15);
+      border-color: rgba(255, 0, 85, 0.4);
+      color: #ff4d8d;
+    }
+
+    .btn-danger:hover {
+      background: rgba(255, 0, 85, 0.3);
+      border-color: var(--danger);
+    }
+
+    .btn-done {
+      background: linear-gradient(135deg, #00ff88, #00b359);
+      color: #000;
+      font-weight: 800;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 10px rgba(0, 255, 136, 0.2);
+    }
+
+    .btn-done:hover {
+      transform: scale(1.04);
+      box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
+    }
+
+    /* Floating Back to Top Button */
+    .btn-back-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, #00f0ff, #00b4d8);
+      color: #000;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 240, 255, 0.4);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-back-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .btn-back-top:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 10px 25px rgba(0, 240, 255, 0.6);
+    }
+
+    main {
+      max-width: 1400px;
+      margin: 24px auto;
+      padding: 0 20px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stat-info h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .stat-info .value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .stat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.12);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .view-options {
+      display: flex;
+      gap: 8px;
+    }
+
+    .view-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .view-btn.active {
+      background: var(--primary);
+      color: #000;
+      border-color: var(--primary);
+    }
+
+    /* Cards Grid */
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    .job-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      transition: all 0.25s ease;
+    }
+
+    .job-card:hover {
+      border-color: rgba(0, 240, 255, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-category {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--primary);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+    }
+
+    .badge-category.site {
+      background: rgba(255, 183, 3, 0.1);
+      color: var(--warning);
+      border-color: rgba(255, 183, 3, 0.25);
+    }
+
+    .badge-category.travel {
+      background: rgba(157, 78, 221, 0.15);
+      color: #c77dff;
+      border-color: rgba(157, 78, 221, 0.3);
+    }
+
+    .badge-category.leisure {
+      background: rgba(0, 255, 136, 0.1);
+      color: var(--secondary);
+      border-color: rgba(0, 255, 136, 0.25);
+    }
+
+    .job-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.35;
+    }
+
+    .info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-item span.icon {
+      color: var(--primary);
+      width: 20px;
+      text-align: center;
+    }
+
+    .crew-box {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px dashed var(--border-color);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.82rem;
+      color: #e2e8f0;
+      line-height: 1.4;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 6px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .alarm-select {
+      background: #090d16;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+    }
+
+    .gcal-btn {
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .gcal-btn:hover {
+      text-decoration: underline;
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 540px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .form-control {
+      background: #090d16;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Table View */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    th, td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Alarm Banner Alert */
+    .alarm-banner {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: linear-gradient(135deg, #ff0055, #ff5500);
+      color: #fff;
+      padding: 16px 20px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(255, 0, 85, 0.5);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transform: translateY(150%);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .alarm-banner.active {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header (Tajuk Kekal Terpapar) -->
+  <header>
+    <div class="header-container">
+      <div class="brand">
+        <span class="logo-badge">JEN TV</span>
+        <h1>Faizal Live Plan</h1>
+      </div>
+      <div class="header-right">
+        <div class="clock-badge">
+          <span>🕒</span>
+          <span id="liveClock">9:46:50 PTG MYT</span>
+        </div>
+        <!-- Butang-butang Tindakan Bahagian Atas (Akan Hilang Apabila Scroll Ke Bawah) -->
+        <div class="header-buttons" id="actionButtons">
+          <button class="btn btn-primary" onclick="openAddModal()">
+            <span>➕</span> Job Baharu
+          </button>
+          <button class="btn btn-save-data" onclick="manualSaveData()" title="Simpan perubahan data ke memori tempatan">
+            <span>💾</span> Save Data
+          </button>
+          <button class="btn btn-save-html" onclick="exportUpdatedHTML()" title="Simpan salinan HTML lengkap dengan data terkini">
+            <span>💾</span> Export HTML
+          </button>
+          <button class="btn" onclick="importJSONData()" title="Import Data JSON">
+            <span>📥</span> Import Data
+          </button>
+          <button class="btn btn-danger" onclick="resetDefaultData()">
+            <span>🔄</span> Reset
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-info">
+          <h3>Tugasan Aktif</h3>
+          <div class="value" id="statTotal">21</div>
+        </div>
+        <div class="stat-icon">📡</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-info">
+          <h3>Live Broadcast</h3>
+          <div class="value" id="statLive">9</div>
+        </div>
+        <div class="stat-icon">🎥</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-info">
+          <h3>Travel &amp; Logistik</h3>
+          <div class="value" id="statTravel">6</div>
+        </div>
+        <div class="stat-icon">🚌</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-info">
+          <h3>Penggera Aktif</h3>
+          <div class="value" id="statAlarms">21</div>
+        </div>
+        <div class="stat-icon">🔔</div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="filter-tabs">
+        <button class="tab-btn active" onclick="setFilter('ALL', this)">Semua Job</button>
+        <button class="tab-btn" onclick="setFilter('Live Broadcast', this)">Live Broadcast</button>
+        <button class="tab-btn" onclick="setFilter('Site Visit', this)">Site Visit</button>
+        <button class="tab-btn" onclick="setFilter('Travel / Logistik', this)">Travel / Logistik</button>
+        <button class="tab-btn" onclick="setFilter('Leisure / Bebas', this)">Leisure / Bebas</button>
+      </div>
+      <div class="view-options">
+        <button class="view-btn active" onclick="setView('GRID', this)" title="Kad Grid">🎴</button>
+        <button class="view-btn" onclick="setView('TABLE', this)" title="Jadual">📊</button>
+      </div>
+    </div>
+
+    <div id="containerGrid" class="jobs-grid"><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category site">Site Visit</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-16')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-16')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Site Visit &amp; Test Speed Internet</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Jum, 16 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>14:00</strong> | Live: <strong>-</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Pdg Watt Pasir Mas</span>
+            </div>
+          </div>
+          <div class="crew-box">Ujian liputan internet &amp; lokasi persediaan teknikal.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-16', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Site%20Visit%20%26%20Test%20Speed%20Internet&amp;dates=20261016T140000/20261016T235900&amp;details=Lokasi%3A%20Pdg%20Watt%20Pasir%20Mas%0ANotes%3A%20Ujian%20liputan%20internet%20%26%20lokasi%20persediaan%20teknikal.&amp;location=Pdg%20Watt%20Pasir%20Mas" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category ">Live Broadcast</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-17-s1')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-17-s1')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Liga Perpaduan Siam - Shift 1</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Sab, 17 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>08:30</strong> | Live: <strong>09:00</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Pdg Watt Pasir Mas</span>
+            </div>
+          </div>
+          <div class="crew-box">📷 Camera: Faizal (9:00 AM - 12:00 PM) | 🎙️ Pengulas: Hasnan/Bad | 🤝 Support: Jimie</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-17-s1', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Liga%20Perpaduan%20Siam%20-%20Shift%201&amp;dates=20261017T083000/20261017T235900&amp;details=Lokasi%3A%20Pdg%20Watt%20Pasir%20Mas%0ANotes%3A%20%F0%9F%93%B7%20Camera%3A%20Faizal%20(9%3A00%20AM%20-%2012%3A00%20PM)%20%7C%20%F0%9F%8E%99%EF%B8%8F%20Pengulas%3A%20Hasnan%2FBad%20%7C%20%F0%9F%A4%9D%20Support%3A%20Jimie&amp;location=Pdg%20Watt%20Pasir%20Mas" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category ">Live Broadcast</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-17-s3')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-17-s3')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Liga Perpaduan Siam - Shift 3</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Sab, 17 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>18:30</strong> | Live: <strong>19:00</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Pdg Watt Pasir Mas</span>
+            </div>
+          </div>
+          <div class="crew-box">📷 Camera: Faizal | 🎙️ Pengulas: Bad/Hasnan | 🤝 Support: Jimie</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-17-s3', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Liga%20Perpaduan%20Siam%20-%20Shift%203&amp;dates=20261017T183000/20261017T235900&amp;details=Lokasi%3A%20Pdg%20Watt%20Pasir%20Mas%0ANotes%3A%20%F0%9F%93%B7%20Camera%3A%20Faizal%20%7C%20%F0%9F%8E%99%EF%B8%8F%20Pengulas%3A%20Bad%2FHasnan%20%7C%20%F0%9F%A4%9D%20Support%3A%20Jimie&amp;location=Pdg%20Watt%20Pasir%20Mas" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category ">Live Broadcast</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-19-final')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-19-final')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Empayar Jersey Social 30 League (FINAL): Duo Panji FC vs Kedai Lalat FC</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Isn, 19 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>19:30</strong> | Live: <strong>21:00</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Kopa Arena, Kubang Kerian</span>
+            </div>
+          </div>
+          <div class="crew-box">🏆 Perlawanan Akhir. Persediaan papan skor live, penstriman &amp; grafik ulasan.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-19-final', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60">🔔 1 Jam Sebelum</option>
+                <option value="1440" selected="">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Empayar%20Jersey%20Social%2030%20League%20(FINAL)%3A%20Duo%20Panji%20FC%20vs%20Kedai%20Lalat%20FC&amp;dates=20261019T193000/20261019T235900&amp;details=Lokasi%3A%20Kopa%20Arena%2C%20Kubang%20Kerian%0ANotes%3A%20%F0%9F%8F%86%20Perlawanan%20Akhir.%20Persediaan%20papan%20skor%20live%2C%20penstriman%20%26%20grafik%20ulasan.&amp;location=Kopa%20Arena%2C%20Kubang%20Kerian" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category travel">Travel / Logistik</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-22-bus')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-22-bus')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Bas Petang KB to Terengganu &amp; Check-in Hotel</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Kha, 22 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>14:00</strong> | Live: <strong>-</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>KB ke Terengganu (TER Resort)</span>
+            </div>
+          </div>
+          <div class="crew-box">Perjalanan pasukan &amp; pendaftaran penginapan hotel TER.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-22-bus', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60">🔔 1 Jam Sebelum</option>
+                <option value="1440" selected="">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Bas%20Petang%20KB%20to%20Terengganu%20%26%20Check-in%20Hotel&amp;dates=20261022T140000/20261022T235900&amp;details=Lokasi%3A%20KB%20ke%20Terengganu%20(TER%20Resort)%0ANotes%3A%20Perjalanan%20pasukan%20%26%20pendaftaran%20penginapan%20hotel%20TER.&amp;location=KB%20ke%20Terengganu%20(TER%20Resort)" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category ">Live Broadcast</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-23-polo1')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-23-polo1')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Polo Semi Final 1</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Jum, 23 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>08:00</strong> | Live: <strong>08:30</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Terengganu Equestrian Resort (TER)</span>
+            </div>
+          </div>
+          <div class="crew-box">Semi Final 1 Kejohanan Polo Terengganu.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-23-polo1', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Polo%20Semi%20Final%201&amp;dates=20261023T080000/20261023T235900&amp;details=Lokasi%3A%20Terengganu%20Equestrian%20Resort%20(TER)%0ANotes%3A%20Semi%20Final%201%20Kejohanan%20Polo%20Terengganu.&amp;location=Terengganu%20Equestrian%20Resort%20(TER)" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category ">Live Broadcast</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-23-polo2')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-23-polo2')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Polo Semi Final 2</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Jum, 23 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>09:00</strong> | Live: <strong>09:30</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Terengganu Equestrian Resort (TER)</span>
+            </div>
+          </div>
+          <div class="crew-box">Semi Final 2 Kejohanan Polo Terengganu.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-23-polo2', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Polo%20Semi%20Final%202&amp;dates=20261023T090000/20261023T235900&amp;details=Lokasi%3A%20Terengganu%20Equestrian%20Resort%20(TER)%0ANotes%3A%20Semi%20Final%202%20Kejohanan%20Polo%20Terengganu.&amp;location=Terengganu%20Equestrian%20Resort%20(TER)" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category ">Live Broadcast</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-24-chukka1')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-24-chukka1')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Polo Chukka 1 &amp; 2 (Final Day)</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Sab, 24 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>08:00</strong> | Live: <strong>08:30</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Terengganu Equestrian Resort (TER)</span>
+            </div>
+          </div>
+          <div class="crew-box">Hari Kemuncak Polo TER.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-24-chukka1', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Polo%20Chukka%201%20%26%202%20(Final%20Day)&amp;dates=20261024T080000/20261024T235900&amp;details=Lokasi%3A%20Terengganu%20Equestrian%20Resort%20(TER)%0ANotes%3A%20Hari%20Kemuncak%20Polo%20TER.&amp;location=Terengganu%20Equestrian%20Resort%20(TER)" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category ">Live Broadcast</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-24-chukka3')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-24-chukka3')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Polo Chukka 3 &amp; 4 (Final Day)</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Sab, 24 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>08:50</strong> | Live: <strong>09:00</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Terengganu Equestrian Resort (TER)</span>
+            </div>
+          </div>
+          <div class="crew-box">Polo TER Chukka 3 &amp; 4.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-24-chukka3', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Polo%20Chukka%203%20%26%204%20(Final%20Day)&amp;dates=20261024T085000/20261024T235900&amp;details=Lokasi%3A%20Terengganu%20Equestrian%20Resort%20(TER)%0ANotes%3A%20Polo%20TER%20Chukka%203%20%26%204.&amp;location=Terengganu%20Equestrian%20Resort%20(TER)" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category ">Live Broadcast</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-24-chukka5')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-24-chukka5')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Polo Chukka 5 &amp; 6 (Final Day) &amp; Departure</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Sab, 24 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>09:20</strong> | Live: <strong>09:30</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Terengganu Equestrian Resort (TER)</span>
+            </div>
+          </div>
+          <div class="crew-box">Final Chukka. Check-out hotel &amp; bas balik KB selepas tamat.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-24-chukka5', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Polo%20Chukka%205%20%26%206%20(Final%20Day)%20%26%20Departure&amp;dates=20261024T092000/20261024T235900&amp;details=Lokasi%3A%20Terengganu%20Equestrian%20Resort%20(TER)%0ANotes%3A%20Final%20Chukka.%20Check-out%20hotel%20%26%20bas%20balik%20KB%20selepas%20tamat.&amp;location=Terengganu%20Equestrian%20Resort%20(TER)" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category travel">Travel / Logistik</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-30-01')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-01')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Bertolak &amp; Sarapan Besut</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Jum, 30 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>08:00</strong> | Live: <strong>-</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Restoran Nasi Dagang Besut</span>
+            </div>
+          </div>
+          <div class="crew-box">👕 Baju Travel Hijau ikhlasrizqi | #mediakelatefc #ikhlasnexus</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-30-01', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60">🔔 1 Jam Sebelum</option>
+                <option value="1440" selected="">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Bertolak%20%26%20Sarapan%20Besut&amp;dates=20261030T080000/20261030T235900&amp;details=Lokasi%3A%20Restoran%20Nasi%20Dagang%20Besut%0ANotes%3A%20%F0%9F%91%95%20Baju%20Travel%20Hijau%20ikhlasrizqi%20%7C%20%23mediakelatefc%20%23ikhlasnexus&amp;location=Restoran%20Nasi%20Dagang%20Besut" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category travel">Travel / Logistik</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-30-02')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-02')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Perjalanan ke Kuala Terengganu</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Jum, 30 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>09:30</strong> | Live: <strong>-</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Besut ke Kuala Terengganu</span>
+            </div>
+          </div>
+          <div class="crew-box">Meneruskan perjalanan konvoi/bas.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-30-02', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Perjalanan%20ke%20Kuala%20Terengganu&amp;dates=20261030T093000/20261030T235900&amp;details=Lokasi%3A%20Besut%20ke%20Kuala%20Terengganu%0ANotes%3A%20Meneruskan%20perjalanan%20konvoi%2Fbas.&amp;location=Besut%20ke%20Kuala%20Terengganu" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category leisure">Leisure / Bebas</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-30-03')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-03')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Tiba Bandar KT &amp; Makan Tengahari</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Jum, 30 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>12:00</strong> | Live: <strong>-</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Bandar Kuala Terengganu</span>
+            </div>
+          </div>
+          <div class="crew-box">Rehat &amp; makan tengahari.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-30-03', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Tiba%20Bandar%20KT%20%26%20Makan%20Tengahari&amp;dates=20261030T120000/20261030T235900&amp;details=Lokasi%3A%20Bandar%20Kuala%20Terengganu%0ANotes%3A%20Rehat%20%26%20makan%20tengahari.&amp;location=Bandar%20Kuala%20Terengganu" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category travel">Travel / Logistik</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-30-04')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-04')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Check-in Homestay &amp; Solat Jumaat</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Jum, 30 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>12:45</strong> | Live: <strong>-</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Homestay Batu Buruk</span>
+            </div>
+          </div>
+          <div class="crew-box">Check-in penginapan &amp; Solat Jumaat.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-30-04', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Check-in%20Homestay%20%26%20Solat%20Jumaat&amp;dates=20261030T124500/20261030T235900&amp;details=Lokasi%3A%20Homestay%20Batu%20Buruk%0ANotes%3A%20Check-in%20penginapan%20%26%20Solat%20Jumaat.&amp;location=Homestay%20Batu%20Buruk" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category leisure">Leisure / Bebas</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-30-05')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-05')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Wayang Paragon Cinema KTCC Mall</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Jum, 30 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>15:00</strong> | Live: <strong>-</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Paragon Cinema KTCC Mall</span>
+            </div>
+          </div>
+          <div class="crew-box">Sesi menonton wayang bersama pasukan.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-30-05', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Wayang%20Paragon%20Cinema%20KTCC%20Mall&amp;dates=20261030T150000/20261030T235900&amp;details=Lokasi%3A%20Paragon%20Cinema%20KTCC%20Mall%0ANotes%3A%20Sesi%20menonton%20wayang%20bersama%20pasukan.&amp;location=Paragon%20Cinema%20KTCC%20Mall" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category leisure">Leisure / Bebas</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-30-06')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-06')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Aktiviti Bebas</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Jum, 30 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>17:00</strong> | Live: <strong>-</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Bandar KT / Pantai Batu Buruk</span>
+            </div>
+          </div>
+          <div class="crew-box">Masa santai bebas.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-30-06', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Aktiviti%20Bebas&amp;dates=20261030T170000/20261030T235900&amp;details=Lokasi%3A%20Bandar%20KT%20%2F%20Pantai%20Batu%20Buruk%0ANotes%3A%20Masa%20santai%20bebas.&amp;location=Bandar%20KT%20%2F%20Pantai%20Batu%20Buruk" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category leisure">Leisure / Bebas</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-30-07')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-07')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Makan Malam Pasukan</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Jum, 30 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>20:00</strong> | Live: <strong>-</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Kedai Berdekatan Homestay Batu Buruk</span>
+            </div>
+          </div>
+          <div class="crew-box">Makan malam &amp; taklimat ringkas perlawanan.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-30-07', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Makan%20Malam%20Pasukan&amp;dates=20261030T200000/20261030T235900&amp;details=Lokasi%3A%20Kedai%20Berdekatan%20Homestay%20Batu%20Buruk%0ANotes%3A%20Makan%20malam%20%26%20taklimat%20ringkas%20perlawanan.&amp;location=Kedai%20Berdekatan%20Homestay%20Batu%20Buruk" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category travel">Travel / Logistik</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-30-08')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-08')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Bertolak ke Padang Turf KTC Arena</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Jum, 30 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>20:45</strong> | Live: <strong>-</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Homestay ke KTC Arena</span>
+            </div>
+          </div>
+          <div class="crew-box">Persediaan pemain &amp; krew media.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-30-08', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Bertolak%20ke%20Padang%20Turf%20KTC%20Arena&amp;dates=20261030T204500/20261030T235900&amp;details=Lokasi%3A%20Homestay%20ke%20KTC%20Arena%0ANotes%3A%20Persediaan%20pemain%20%26%20krew%20media.&amp;location=Homestay%20ke%20KTC%20Arena" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category ">Live Broadcast</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-30-09')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-09')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">🔴 FRIENDLY MATCH: Media Kelate FC vs KTC Arena</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Jum, 30 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>21:00</strong> | Live: <strong>21:30</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Padang Turf KTC Arena Batu Buruk</span>
+            </div>
+          </div>
+          <div class="crew-box">👕 Baju hijau ikhlasrizqi | #mediakelatefc #ikhlasnexus</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-30-09', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20%F0%9F%94%B4%20FRIENDLY%20MATCH%3A%20Media%20Kelate%20FC%20vs%20KTC%20Arena&amp;dates=20261030T210000/20261030T235900&amp;details=Lokasi%3A%20Padang%20Turf%20KTC%20Arena%20Batu%20Buruk%0ANotes%3A%20%F0%9F%91%95%20Baju%20hijau%20ikhlasrizqi%20%7C%20%23mediakelatefc%20%23ikhlasnexus&amp;location=Padang%20Turf%20KTC%20Arena%20Batu%20Buruk" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category leisure">Leisure / Bebas</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-30-10')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-10')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Minum Ringan &amp; Balik Homestay</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Jum, 30 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>23:30</strong> | Live: <strong>-</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>KTC Arena / Homestay</span>
+            </div>
+          </div>
+          <div class="crew-box">Sesi ramah mesra &amp; berehat.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-30-10', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Minum%20Ringan%20%26%20Balik%20Homestay&amp;dates=20261030T233000/20261030T235900&amp;details=Lokasi%3A%20KTC%20Arena%20%2F%20Homestay%0ANotes%3A%20Sesi%20ramah%20mesra%20%26%20berehat.&amp;location=KTC%20Arena%20%2F%20Homestay" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div><div class="job-card">
+          <div class="card-header">
+            <span class="badge-category travel">Travel / Logistik</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('job-31-01')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-31-01')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">Sarapan Pagi &amp; Bertolak Balik Kelantan</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>Sab, 31 Okt 2026</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>09:00</strong> | Live: <strong>-</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>Homestay Batu Buruk ke KB</span>
+            </div>
+          </div>
+          <div class="crew-box">Check-out homestay &amp; perjalanan pulang.</div>
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('job-31-01', this.value)">
+                <option value="0">🔕 Off</option>
+                <option value="15">🔔 15 Minit Sebelum</option>
+                <option value="30">🔔 30 Minit Sebelum</option>
+                <option value="60" selected="">🔔 1 Jam Sebelum</option>
+                <option value="1440">🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%5BJEN%20TV%5D%20Sarapan%20Pagi%20%26%20Bertolak%20Balik%20Kelantan&amp;dates=20261031T090000/20261031T235900&amp;details=Lokasi%3A%20Homestay%20Batu%20Buruk%20ke%20KB%0ANotes%3A%20Check-out%20homestay%20%26%20perjalanan%20pulang.&amp;location=Homestay%20Batu%20Buruk%20ke%20KB" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        </div></div>
+    <div id="containerTable" class="table-responsive" style="display: none;">
+      <table>
+        <thead>
+          <tr>
+            <th>Tarikh &amp; Masa</th>
+            <th>Acara / Program</th>
+            <th>Kategori</th>
+            <th>Venue / Lokasi</th>
+            <th>Tugasan &amp; Krew</th>
+            <th>Tindakan Utama</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"><tr>
+          <td>
+            <strong>2026-10-16</strong><br>
+            <small style="color: var(--primary);">Call: 14:00 | Live: -</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Site Visit &amp; Test Speed Internet</td>
+          <td><span class="badge-category">Site Visit</span></td>
+          <td>Pdg Watt Pasir Mas</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Ujian liputan internet &amp; lokasi persediaan teknikal.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-16')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-16')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-17</strong><br>
+            <small style="color: var(--primary);">Call: 08:30 | Live: 09:00</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Liga Perpaduan Siam - Shift 1</td>
+          <td><span class="badge-category">Live Broadcast</span></td>
+          <td>Pdg Watt Pasir Mas</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">📷 Camera: Faizal (9:00 AM - 12:00 PM) | 🎙️ Pengulas: Hasnan/Bad | 🤝 Support: Jimie</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-17-s1')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-17-s1')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-17</strong><br>
+            <small style="color: var(--primary);">Call: 18:30 | Live: 19:00</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Liga Perpaduan Siam - Shift 3</td>
+          <td><span class="badge-category">Live Broadcast</span></td>
+          <td>Pdg Watt Pasir Mas</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">📷 Camera: Faizal | 🎙️ Pengulas: Bad/Hasnan | 🤝 Support: Jimie</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-17-s3')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-17-s3')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-19</strong><br>
+            <small style="color: var(--primary);">Call: 19:30 | Live: 21:00</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Empayar Jersey Social 30 League (FINAL): Duo Panji FC vs Kedai Lalat FC</td>
+          <td><span class="badge-category">Live Broadcast</span></td>
+          <td>Kopa Arena, Kubang Kerian</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">🏆 Perlawanan Akhir. Persediaan papan skor live, penstriman &amp; grafik ulasan.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-19-final')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-19-final')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-22</strong><br>
+            <small style="color: var(--primary);">Call: 14:00 | Live: -</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Bas Petang KB to Terengganu &amp; Check-in Hotel</td>
+          <td><span class="badge-category">Travel / Logistik</span></td>
+          <td>KB ke Terengganu (TER Resort)</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Perjalanan pasukan &amp; pendaftaran penginapan hotel TER.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-22-bus')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-22-bus')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-23</strong><br>
+            <small style="color: var(--primary);">Call: 08:00 | Live: 08:30</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Polo Semi Final 1</td>
+          <td><span class="badge-category">Live Broadcast</span></td>
+          <td>Terengganu Equestrian Resort (TER)</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Semi Final 1 Kejohanan Polo Terengganu.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-23-polo1')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-23-polo1')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-23</strong><br>
+            <small style="color: var(--primary);">Call: 09:00 | Live: 09:30</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Polo Semi Final 2</td>
+          <td><span class="badge-category">Live Broadcast</span></td>
+          <td>Terengganu Equestrian Resort (TER)</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Semi Final 2 Kejohanan Polo Terengganu.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-23-polo2')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-23-polo2')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-24</strong><br>
+            <small style="color: var(--primary);">Call: 08:00 | Live: 08:30</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Polo Chukka 1 &amp; 2 (Final Day)</td>
+          <td><span class="badge-category">Live Broadcast</span></td>
+          <td>Terengganu Equestrian Resort (TER)</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Hari Kemuncak Polo TER.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-24-chukka1')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-24-chukka1')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-24</strong><br>
+            <small style="color: var(--primary);">Call: 08:50 | Live: 09:00</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Polo Chukka 3 &amp; 4 (Final Day)</td>
+          <td><span class="badge-category">Live Broadcast</span></td>
+          <td>Terengganu Equestrian Resort (TER)</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Polo TER Chukka 3 &amp; 4.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-24-chukka3')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-24-chukka3')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-24</strong><br>
+            <small style="color: var(--primary);">Call: 09:20 | Live: 09:30</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Polo Chukka 5 &amp; 6 (Final Day) &amp; Departure</td>
+          <td><span class="badge-category">Live Broadcast</span></td>
+          <td>Terengganu Equestrian Resort (TER)</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Final Chukka. Check-out hotel &amp; bas balik KB selepas tamat.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-24-chukka5')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-24-chukka5')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-30</strong><br>
+            <small style="color: var(--primary);">Call: 08:00 | Live: -</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Bertolak &amp; Sarapan Besut</td>
+          <td><span class="badge-category">Travel / Logistik</span></td>
+          <td>Restoran Nasi Dagang Besut</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">👕 Baju Travel Hijau ikhlasrizqi | #mediakelatefc #ikhlasnexus</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-30-01')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-01')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-30</strong><br>
+            <small style="color: var(--primary);">Call: 09:30 | Live: -</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Perjalanan ke Kuala Terengganu</td>
+          <td><span class="badge-category">Travel / Logistik</span></td>
+          <td>Besut ke Kuala Terengganu</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Meneruskan perjalanan konvoi/bas.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-30-02')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-02')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-30</strong><br>
+            <small style="color: var(--primary);">Call: 12:00 | Live: -</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Tiba Bandar KT &amp; Makan Tengahari</td>
+          <td><span class="badge-category">Leisure / Bebas</span></td>
+          <td>Bandar Kuala Terengganu</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Rehat &amp; makan tengahari.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-30-03')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-03')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-30</strong><br>
+            <small style="color: var(--primary);">Call: 12:45 | Live: -</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Check-in Homestay &amp; Solat Jumaat</td>
+          <td><span class="badge-category">Travel / Logistik</span></td>
+          <td>Homestay Batu Buruk</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Check-in penginapan &amp; Solat Jumaat.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-30-04')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-04')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-30</strong><br>
+            <small style="color: var(--primary);">Call: 15:00 | Live: -</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Wayang Paragon Cinema KTCC Mall</td>
+          <td><span class="badge-category">Leisure / Bebas</span></td>
+          <td>Paragon Cinema KTCC Mall</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Sesi menonton wayang bersama pasukan.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-30-05')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-05')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-30</strong><br>
+            <small style="color: var(--primary);">Call: 17:00 | Live: -</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Aktiviti Bebas</td>
+          <td><span class="badge-category">Leisure / Bebas</span></td>
+          <td>Bandar KT / Pantai Batu Buruk</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Masa santai bebas.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-30-06')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-06')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-30</strong><br>
+            <small style="color: var(--primary);">Call: 20:00 | Live: -</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Makan Malam Pasukan</td>
+          <td><span class="badge-category">Leisure / Bebas</span></td>
+          <td>Kedai Berdekatan Homestay Batu Buruk</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Makan malam &amp; taklimat ringkas perlawanan.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-30-07')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-07')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-30</strong><br>
+            <small style="color: var(--primary);">Call: 20:45 | Live: -</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Bertolak ke Padang Turf KTC Arena</td>
+          <td><span class="badge-category">Travel / Logistik</span></td>
+          <td>Homestay ke KTC Arena</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Persediaan pemain &amp; krew media.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-30-08')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-08')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-30</strong><br>
+            <small style="color: var(--primary);">Call: 21:00 | Live: 21:30</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">🔴 FRIENDLY MATCH: Media Kelate FC vs KTC Arena</td>
+          <td><span class="badge-category">Live Broadcast</span></td>
+          <td>Padang Turf KTC Arena Batu Buruk</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">👕 Baju hijau ikhlasrizqi | #mediakelatefc #ikhlasnexus</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-30-09')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-09')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-30</strong><br>
+            <small style="color: var(--primary);">Call: 23:30 | Live: -</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Minum Ringan &amp; Balik Homestay</td>
+          <td><span class="badge-category">Leisure / Bebas</span></td>
+          <td>KTC Arena / Homestay</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Sesi ramah mesra &amp; berehat.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-30-10')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-30-10')">✅ DONE</button>
+            </div>
+          </td>
+        </tr><tr>
+          <td>
+            <strong>2026-10-31</strong><br>
+            <small style="color: var(--primary);">Call: 09:00 | Live: -</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">Sarapan Pagi &amp; Bertolak Balik Kelantan</td>
+          <td><span class="badge-category">Travel / Logistik</span></td>
+          <td>Homestay Batu Buruk ke KB</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">Check-out homestay &amp; perjalanan pulang.</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('job-31-01')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('job-31-01')">✅ DONE</button>
+            </div>
+          </td>
+        </tr></tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Butang Terapung Back to Top (Kanan Bawah) -->
+  <button class="btn-back-top" id="btnBackTop" onclick="scrollToTop()">
+    <span>⬆</span> Top Page
+  </button>
+
+  <!-- Modal Tambah/Edit Job -->
+  <div class="modal-overlay" id="jobModal">
+    <div class="modal-card">
+      <h2 style="color: #fff; font-size: 1.2rem;" id="modalTitle">✏️ Edit Maklumat Job</h2>
+      <input type="hidden" id="editJobId" value="job-16">
+      
+      <div class="form-group">
+        <label>Nama Acara / Program</label>
+        <input type="text" id="inputTitle" class="form-control" placeholder="Contoh: Liga Futsal Match 1">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tarikh</label>
+          <input type="date" id="inputDate" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Kategori</label>
+          <select id="inputCategory" class="form-control">
+            <option value="Live Broadcast">Live Broadcast</option>
+            <option value="Site Visit">Site Visit</option>
+            <option value="Travel / Logistik">Travel / Logistik</option>
+            <option value="Leisure / Bebas">Leisure / Bebas</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Masa Call Time</label>
+          <input type="time" id="inputCallTime" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Masa Live / Kick-Off</label>
+          <input type="time" id="inputLiveTime" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Venue / Lokasi</label>
+        <input type="text" id="inputVenue" class="form-control" placeholder="Lokasi stadium / venue">
+      </div>
+      <div class="form-group">
+        <label>Catatan Tugasan &amp; Krew</label>
+        <textarea id="inputNotes" class="form-control" rows="3" placeholder="Peranan Faizal, pengulas, support, dll."></textarea>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px;">
+        <button class="btn" onclick="closeJobModal()">Batal</button>
+        <button class="btn btn-primary" onclick="saveJobModal()">Simpan Job</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden File Input for Import -->
+  <input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="handleFileImport(event)">
+
+  <!-- Alarm Banner -->
+  <div class="alarm-banner" id="alarmBanner">
+    <span style="font-size: 1.8rem;">🔔</span>
+    <div>
+      <h4 style="font-size: 0.95rem; font-weight: 800;" id="alarmBannerTitle">PERINGATAN JOB!</h4>
+      <p style="font-size: 0.82rem; opacity: 0.9;" id="alarmBannerDesc">Tiba masa untuk persediaan perlawanan.</p>
+    </div>
+    <button class="btn" style="background:#fff; color:#000; padding:6px 12px; margin-left:10px;" onclick="stopAlarmSound()">Tutup</button>
+  </div>
+
+  <script>
+    const DEFAULT_JOBS = [{"id":"job-16","date":"2026-10-16","title":"Site Visit & Test Speed Internet","category":"Site Visit","callTime":"14:00","liveTime":"-","venue":"Pdg Watt Pasir Mas","notes":"Ujian liputan internet & lokasi persediaan teknikal.","alarmOffset":60},{"id":"job-17-s1","date":"2026-10-17","title":"Liga Perpaduan Siam - Shift 1","category":"Live Broadcast","callTime":"08:30","liveTime":"09:00","venue":"Pdg Watt Pasir Mas","notes":"📷 Camera: Faizal (9:00 AM - 12:00 PM) | 🎙️ Pengulas: Hasnan/Bad | 🤝 Support: Jimie","alarmOffset":60},{"id":"job-17-s3","date":"2026-10-17","title":"Liga Perpaduan Siam - Shift 3","category":"Live Broadcast","callTime":"18:30","liveTime":"19:00","venue":"Pdg Watt Pasir Mas","notes":"📷 Camera: Faizal | 🎙️ Pengulas: Bad/Hasnan | 🤝 Support: Jimie","alarmOffset":60},{"id":"job-19-final","date":"2026-10-19","title":"Empayar Jersey Social 30 League (FINAL): Duo Panji FC vs Kedai Lalat FC","category":"Live Broadcast","callTime":"19:30","liveTime":"21:00","venue":"Kopa Arena, Kubang Kerian","notes":"🏆 Perlawanan Akhir. Persediaan papan skor live, penstriman & grafik ulasan.","alarmOffset":1440},{"id":"job-22-bus","date":"2026-10-22","title":"Bas Petang KB to Terengganu & Check-in Hotel","category":"Travel / Logistik","callTime":"14:00","liveTime":"-","venue":"KB ke Terengganu (TER Resort)","notes":"Perjalanan pasukan & pendaftaran penginapan hotel TER.","alarmOffset":1440},{"id":"job-23-polo1","date":"2026-10-23","title":"Polo Semi Final 1","category":"Live Broadcast","callTime":"08:00","liveTime":"08:30","venue":"Terengganu Equestrian Resort (TER)","notes":"Semi Final 1 Kejohanan Polo Terengganu.","alarmOffset":60},{"id":"job-23-polo2","date":"2026-10-23","title":"Polo Semi Final 2","category":"Live Broadcast","callTime":"09:00","liveTime":"09:30","venue":"Terengganu Equestrian Resort (TER)","notes":"Semi Final 2 Kejohanan Polo Terengganu.","alarmOffset":60},{"id":"job-24-chukka1","date":"2026-10-24","title":"Polo Chukka 1 & 2 (Final Day)","category":"Live Broadcast","callTime":"08:00","liveTime":"08:30","venue":"Terengganu Equestrian Resort (TER)","notes":"Hari Kemuncak Polo TER.","alarmOffset":60},{"id":"job-24-chukka3","date":"2026-10-24","title":"Polo Chukka 3 & 4 (Final Day)","category":"Live Broadcast","callTime":"08:50","liveTime":"09:00","venue":"Terengganu Equestrian Resort (TER)","notes":"Polo TER Chukka 3 & 4.","alarmOffset":60},{"id":"job-24-chukka5","date":"2026-10-24","title":"Polo Chukka 5 & 6 (Final Day) & Departure","category":"Live Broadcast","callTime":"09:20","liveTime":"09:30","venue":"Terengganu Equestrian Resort (TER)","notes":"Final Chukka. Check-out hotel & bas balik KB selepas tamat.","alarmOffset":60},{"id":"job-30-01","date":"2026-10-30","title":"Bertolak & Sarapan Besut","category":"Travel / Logistik","callTime":"08:00","liveTime":"-","venue":"Restoran Nasi Dagang Besut","notes":"👕 Baju Travel Hijau ikhlasrizqi | #mediakelatefc #ikhlasnexus","alarmOffset":1440},{"id":"job-30-02","date":"2026-10-30","title":"Perjalanan ke Kuala Terengganu","category":"Travel / Logistik","callTime":"09:30","liveTime":"-","venue":"Besut ke Kuala Terengganu","notes":"Meneruskan perjalanan konvoi/bas.","alarmOffset":60},{"id":"job-30-03","date":"2026-10-30","title":"Tiba Bandar KT & Makan Tengahari","category":"Leisure / Bebas","callTime":"12:00","liveTime":"-","venue":"Bandar Kuala Terengganu","notes":"Rehat & makan tengahari.","alarmOffset":60},{"id":"job-30-04","date":"2026-10-30","title":"Check-in Homestay & Solat Jumaat","category":"Travel / Logistik","callTime":"12:45","liveTime":"-","venue":"Homestay Batu Buruk","notes":"Check-in penginapan & Solat Jumaat.","alarmOffset":60},{"id":"job-30-05","date":"2026-10-30","title":"Wayang Paragon Cinema KTCC Mall","category":"Leisure / Bebas","callTime":"15:00","liveTime":"-","venue":"Paragon Cinema KTCC Mall","notes":"Sesi menonton wayang bersama pasukan.","alarmOffset":60},{"id":"job-30-06","date":"2026-10-30","title":"Aktiviti Bebas","category":"Leisure / Bebas","callTime":"17:00","liveTime":"-","venue":"Bandar KT / Pantai Batu Buruk","notes":"Masa santai bebas.","alarmOffset":60},{"id":"job-30-07","date":"2026-10-30","title":"Makan Malam Pasukan","category":"Leisure / Bebas","callTime":"20:00","liveTime":"-","venue":"Kedai Berdekatan Homestay Batu Buruk","notes":"Makan malam & taklimat ringkas perlawanan.","alarmOffset":60},{"id":"job-30-08","date":"2026-10-30","title":"Bertolak ke Padang Turf KTC Arena","category":"Travel / Logistik","callTime":"20:45","liveTime":"-","venue":"Homestay ke KTC Arena","notes":"Persediaan pemain & krew media.","alarmOffset":60},{"id":"job-30-09","date":"2026-10-30","title":"🔴 FRIENDLY MATCH: Media Kelate FC vs KTC Arena","category":"Live Broadcast","callTime":"21:00","liveTime":"21:30","venue":"Padang Turf KTC Arena Batu Buruk","notes":"👕 Baju hijau ikhlasrizqi | #mediakelatefc #ikhlasnexus","alarmOffset":60},{"id":"job-30-10","date":"2026-10-30","title":"Minum Ringan & Balik Homestay","category":"Leisure / Bebas","callTime":"23:30","liveTime":"-","venue":"KTC Arena / Homestay","notes":"Sesi ramah mesra & berehat.","alarmOffset":60},{"id":"job-31-01","date":"2026-10-31","title":"Sarapan Pagi & Bertolak Balik Kelantan","category":"Travel / Logistik","callTime":"09:00","liveTime":"-","venue":"Homestay Batu Buruk ke KB","notes":"Check-out homestay & perjalanan pulang.","alarmOffset":60}];
+
+    let jobsData = [];
+    let currentFilter = 'ALL';
+    let currentView = 'GRID';
+    let audioCtx = null;
+
+    function initApp() {
+      const saved = localStorage.getItem('faizal_live_jobs_v6');
+      if (saved) {
+        jobsData = JSON.parse(saved);
+      } else {
+        jobsData = [...DEFAULT_JOBS];
+        saveData();
+      }
+
+      startClock();
+      renderApp();
+      initScrollEffects();
+      setInterval(checkAlarms, 30000);
+    }
+
+    /* Kawalan Scroll: Menyembunyikan Butang Atas & Menampilkan Butang 'Top' */
+    function initScrollEffects() {
+      const actionButtons = document.getElementById('actionButtons');
+      const btnBackTop = document.getElementById('btnBackTop');
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 40) {
+          actionButtons.classList.add('buttons-hidden');
+          btnBackTop.classList.add('visible');
+        } else {
+          actionButtons.classList.remove('buttons-hidden');
+          btnBackTop.classList.remove('visible');
+        }
+      });
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function saveData() {
+      localStorage.setItem('faizal_live_jobs_v6', JSON.stringify(jobsData));
+    }
+
+    function manualSaveData() {
+      saveData();
+      alert('✅ Data berjaya disimpan ke memori tempatan (localStorage)!');
+    }
+
+    function resetDefaultData() {
+      if (confirm('Adakah anda pasti mahu mereset semula ke jadual asal? Semua tugasan yang telah dipadam atau diubah akan kembali ke tetapan asal.')) {
+        jobsData = [...DEFAULT_JOBS];
+        saveData();
+        renderApp();
+      }
+    }
+
+    function markDoneAndDelete(id) {
+      if (confirm('Sahkan bahawa tugasan ini telah SELESAI? Ia akan dipadam secara kekal daripada jadual.')) {
+        jobsData = jobsData.filter(j => j.id !== id);
+        saveData();
+        renderApp();
+      }
+    }
+
+    function startClock() {
+      const clockEl = document.getElementById('liveClock');
+      setInterval(() => {
+        const now = new Date();
+        clockEl.textContent = now.toLocaleTimeString('ms-MY') + ' MYT';
+      }, 1000);
+    }
+
+    function setFilter(filter, btn) {
+      currentFilter = filter;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderApp();
+    }
+
+    function setView(view, btn) {
+      currentView = view;
+      document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.getElementById('containerGrid').style.display = view === 'GRID' ? 'grid' : 'none';
+      document.getElementById('containerTable').style.display = view === 'TABLE' ? 'block' : 'none';
+      renderApp();
+    }
+
+    function renderApp() {
+      let filtered = jobsData.filter(j => {
+        if (currentFilter === 'ALL') return true;
+        return j.category === currentFilter;
+      });
+
+      filtered.sort((a,b) => new Date(`${a.date}T${a.callTime !== '-' && a.callTime ? a.callTime : '00:00'}`) - new Date(`${b.date}T${b.callTime !== '-' && b.callTime ? b.callTime : '00:00'}`));
+
+      document.getElementById('statTotal').textContent = jobsData.length;
+      document.getElementById('statLive').textContent = jobsData.filter(j => j.category === 'Live Broadcast').length;
+      document.getElementById('statTravel').textContent = jobsData.filter(j => j.category === 'Travel / Logistik').length;
+      document.getElementById('statAlarms').textContent = jobsData.filter(j => j.alarmOffset > 0).length;
+
+      const gridEl = document.getElementById('containerGrid');
+      gridEl.innerHTML = '';
+
+      if (filtered.length === 0) {
+        gridEl.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding: 40px; color: var(--text-muted);">Tiada job aktif buat masa ini.</div>`;
+      }
+
+      filtered.forEach(job => {
+        const catClass = job.category === 'Site Visit' ? 'site' : (job.category === 'Travel / Logistik' ? 'travel' : (job.category === 'Leisure / Bebas' ? 'leisure' : ''));
+        const gcalUrl = generateGCalUrl(job);
+
+        const card = document.createElement('div');
+        card.className = 'job-card';
+        card.innerHTML = `
+          <div class="card-header">
+            <span class="badge-category ${catClass}">${job.category}</span>
+            <div class="card-header-actions">
+              <button class="btn-edit" onclick="openEditModal('${job.id}')">
+                ✏️ Edit
+              </button>
+              <button class="btn-done" onclick="markDoneAndDelete('${job.id}')">
+                ✅ DONE
+              </button>
+            </div>
+          </div>
+          <div class="job-title">${job.title}</div>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="icon">📅</span>
+              <span>${formatDateMS(job.date)}</span>
+            </div>
+            <div class="info-item">
+              <span class="icon">⏰</span>
+              <span>Call Time: <strong>${job.callTime}</strong> | Live: <strong>${job.liveTime}</strong></span>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <span>${job.venue}</span>
+            </div>
+          </div>
+          ${job.notes ? `<div class="crew-box">${job.notes}</div>` : ''}
+          <div class="card-actions">
+            <div>
+              <label style="font-size: 0.72rem; color: var(--text-muted); display:block;">Tetapan Penggera:</label>
+              <select class="alarm-select" onchange="updateAlarm('${job.id}', this.value)">
+                <option value="0" ${job.alarmOffset == 0 ? 'selected' : ''}>🔕 Off</option>
+                <option value="15" ${job.alarmOffset == 15 ? 'selected' : ''}>🔔 15 Minit Sebelum</option>
+                <option value="30" ${job.alarmOffset == 30 ? 'selected' : ''}>🔔 30 Minit Sebelum</option>
+                <option value="60" ${job.alarmOffset == 60 ? 'selected' : ''}>🔔 1 Jam Sebelum</option>
+                <option value="1440" ${job.alarmOffset == 1440 ? 'selected' : ''}>🔔 1 Hari Sebelum</option>
+              </select>
+            </div>
+            <a href="${gcalUrl}" target="_blank" class="gcal-btn">📅 Kalendar</a>
+          </div>
+        `;
+        gridEl.appendChild(card);
+      });
+
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+      filtered.forEach(job => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <strong>${job.date}</strong><br>
+            <small style="color: var(--primary);">Call: ${job.callTime} | Live: ${job.liveTime}</small>
+          </td>
+          <td style="font-weight: 700; color: #fff;">${job.title}</td>
+          <td><span class="badge-category">${job.category}</span></td>
+          <td>${job.venue}</td>
+          <td style="font-size: 0.82rem; color: var(--text-muted);">${job.notes}</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-edit" onclick="openEditModal('${job.id}')">✏️ Edit</button>
+              <button class="btn-done" onclick="markDoneAndDelete('${job.id}')">✅ DONE</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function formatDateMS(dateStr) {
+      if (!dateStr) return '-';
+      const options = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
+      return new Date(dateStr).toLocaleDateString('ms-MY', options);
+    }
+
+    function generateGCalUrl(job) {
+      const startTime = (job.callTime && job.callTime !== '-') ? job.callTime.replace(':', '') + '00' : '090000';
+      const d = job.date ? job.date.replace(/-/g, '') : '';
+      const title = encodeURIComponent(`[JEN TV] ${job.title}`);
+      const details = encodeURIComponent(`Lokasi: ${job.venue}\nNotes: ${job.notes}`);
+      const location = encodeURIComponent(job.venue);
+      return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${d}T${startTime}/${d}T235900&details=${details}&location=${location}`;
+    }
+
+    function updateAlarm(id, val) {
+      const job = jobsData.find(j => j.id === id);
+      if (job) {
+        job.alarmOffset = parseInt(val);
+        saveData();
+        renderApp();
+      }
+    }
+
+    function openAddModal() {
+      document.getElementById('modalTitle').textContent = '➕ Tambah Job Baharu';
+      document.getElementById('editJobId').value = '';
+      document.getElementById('inputTitle').value = '';
+      document.getElementById('inputDate').value = '';
+      document.getElementById('inputCategory').value = 'Live Broadcast';
+      document.getElementById('inputCallTime').value = '';
+      document.getElementById('inputLiveTime').value = '';
+      document.getElementById('inputVenue').value = '';
+      document.getElementById('inputNotes').value = '';
+      document.getElementById('jobModal').classList.add('active');
+    }
+
+    function openEditModal(id) {
+      const job = jobsData.find(j => j.id === id);
+      if (!job) return;
+
+      document.getElementById('modalTitle').textContent = '✏️ Edit Maklumat Job';
+      document.getElementById('editJobId').value = job.id;
+      document.getElementById('inputTitle').value = job.title || '';
+      document.getElementById('inputDate').value = job.date || '';
+      document.getElementById('inputCategory').value = job.category || 'Live Broadcast';
+      document.getElementById('inputCallTime').value = (job.callTime && job.callTime !== '-') ? job.callTime : '';
+      document.getElementById('inputLiveTime').value = (job.liveTime && job.liveTime !== '-') ? job.liveTime : '';
+      document.getElementById('inputVenue').value = job.venue || '';
+      document.getElementById('inputNotes').value = job.notes || '';
+      document.getElementById('jobModal').classList.add('active');
+    }
+
+    function closeJobModal() {
+      document.getElementById('jobModal').classList.remove('active');
+    }
+
+    function saveJobModal() {
+      const editId = document.getElementById('editJobId').value;
+      const title = document.getElementById('inputTitle').value.trim();
+      const date = document.getElementById('inputDate').value;
+      const category = document.getElementById('inputCategory').value;
+      const callTime = document.getElementById('inputCallTime').value || '-';
+      const liveTime = document.getElementById('inputLiveTime').value || '-';
+      const venue = document.getElementById('inputVenue').value.trim() || 'TBC';
+      const notes = document.getElementById('inputNotes').value.trim();
+
+      if (!title || !date) {
+        alert('Sila isi Tajuk Acara dan Tarikh.');
+        return;
+      }
+
+      if (editId) {
+        const index = jobsData.findIndex(j => j.id === editId);
+        if (index !== -1) {
+          jobsData[index] = {
+            ...jobsData[index],
+            title,
+            date,
+            category,
+            callTime,
+            liveTime,
+            venue,
+            notes
+          };
+        }
+      } else {
+        const newJob = {
+          id: 'job-' + Date.now(),
+          title,
+          date,
+          category,
+          callTime,
+          liveTime,
+          venue,
+          notes,
+          alarmOffset: 30
+        };
+        jobsData.push(newJob);
+      }
+
+      saveData();
+      closeJobModal();
+      renderApp();
+    }
+
+    function exportUpdatedHTML() {
+      let currentHTML = document.documentElement.outerHTML;
+      const jsonString = JSON.stringify(jobsData);
+
+      currentHTML = currentHTML.replace(
+        /const DEFAULT_JOBS = \[[\s\S]*?\];/,
+        `const DEFAULT_JOBS = ${jsonString};`
+      );
+
+      const blob = new Blob([currentHTML], { type: 'text/html' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Faizal_Live_Plan_Dashboard_${new Date().toISOString().slice(0,10)}.html`;
+      a.click();
+    }
+
+    function importJSONData() {
+      document.getElementById('importFileInput').click();
+    }
+
+    function handleFileImport(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const importedData = JSON.parse(e.target.result);
+          if (Array.isArray(importedData)) {
+            jobsData = importedData;
+            saveData();
+            renderApp();
+            alert('Data berjaya di-import!');
+          } else {
+            alert('Format fail JSON tidak sah.');
+          }
+        } catch (err) {
+          alert('Gagal membaca fail JSON.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function checkAlarms() {
+      const now = new Date();
+      jobsData.forEach(j => {
+        if (!j.alarmOffset || !j.callTime || j.callTime === '-') return;
+        const [hh, mm] = j.callTime.split(':');
+        const jobDate = new Date(`${j.date}T${hh}:${mm}:00`);
+        const alarmTime = new Date(jobDate.getTime() - j.alarmOffset * 60000);
+
+        const diff = Math.abs(now - alarmTime);
+        if (diff < 30000) {
+          triggerSoundAndBanner(j);
+        }
+      });
+    }
+
+    function triggerSoundAndBanner(job) {
+      document.getElementById('alarmBannerTitle').textContent = `PERINGATAN: ${job.title}`;
+      document.getElementById('alarmBannerDesc').textContent = `Call Time: ${job.callTime} di ${job.venue}`;
+      document.getElementById('alarmBanner').classList.add('active');
+
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.2);
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.6);
+      } catch (e) {
+        console.log('Audio autoplay prevented');
+      }
+    }
+
+    function stopAlarmSound() {
+      document.getElementById('alarmBanner').classList.remove('active');
+    }
+
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+
+</body></html>
